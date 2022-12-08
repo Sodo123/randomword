@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
@@ -32,20 +33,32 @@ class SampleAppPage extends StatefulWidget {
 
 class _SamplePageState extends State<SampleAppPage> {
 
-  String textToShow = 'I Like Flutter';
+  bool toggle = true;
 
-  void _updateText() {
+  void _toggle() {
     setState(() {
-      textToShow = 'Flutter is Awsowme!';
+      toggle = !toggle;
     });
   }
+
+  Widget _getToggleChild() {
+    if (toggle) {
+      return const Text('Toggle One');
+    } else {
+      return CupertinoButton(
+        onPressed: (){},
+        child: const Text('Toggle Two'),
+      );
+    }
+  }
+
     @override
     Widget build(BuildContext context) {
       return Scaffold(
         appBar: AppBar(title: const Text('Sample App')),
-        body: Center(child: Text(textToShow)),
+        body: Center(child: _getToggleChild()),
           floatingActionButton: FloatingActionButton(
-          onPressed: _updateText,
+          onPressed: _toggle,
             tooltip: 'Update Text',
             child: const Icon(Icons.update),
         ),
