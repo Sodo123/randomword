@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.black
         ),
       ),
-      home: SampleAppPage(),
+      home: const SampleAppPage(),
     );
   }
 }
@@ -35,39 +35,30 @@ class SampleAppPage extends StatefulWidget {
 
 class _SamplePageState extends State<SampleAppPage> {
 
-  List<Map<String, dynamic>> data = [];
+  List<Widget> widgets = [];
   
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadData();
-  }
-  
-  Future<void> loadData() async {
-    final Uri dataURL = Uri.parse('https://jsonplaceholder.typicode.com/posts');
-    final http.Response response = await http.get(dataURL);
-    setState(() {
-      data = List<Map<String, dynamic>>.from(jsonDecode(response.body));
-    });
-  }
-  
-  List<Widget> _getListData() {
-    final List<Widget>  widgets = [];
-    for(int i=0; i < 100; i++) {
-      widgets.add(
-        GestureDetector(
-          onTap:() {
-            developer.log('row tapped');
-          },
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text('Row $i'),
-            ),
-        )
-      );
+    for(int i=0; i < 10; i++) {
+        widgets.add(getRow(i));
     }
-    return widgets;
+  }
+
+  Widget getRow(int i) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          widgets.add(getRow(widgets.length));
+          developer.log('tapped $i');
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Text('Row $i'),
+      ),
+    );
   }
 
   @override
@@ -77,7 +68,12 @@ class _SamplePageState extends State<SampleAppPage> {
       appBar: AppBar(
         title: const Text('Sample App'),
       ),
-      body: ListView(children: _getListData()),
+      body: ListView.builder(
+        itemBuilder: (context, position) {
+          return getRow(position);
+        },
+        itemCount: widgets.length,
+      ),
     );
   }
 
