@@ -34,7 +34,7 @@ class SampleAppPage extends StatefulWidget {
 
 class _SamplePageState extends State<SampleAppPage> {
 
-  List<Map<String, dynamic>> data = <Map<String, dynamic>>[];
+  List<Map<String, dynamic>> data = [];
   
   @override
   void initState() {
@@ -47,14 +47,14 @@ class _SamplePageState extends State<SampleAppPage> {
     final Uri dataURL = Uri.parse('https://jsonplaceholder.typicode.com/posts');
     final http.Response response = await http.get(dataURL);
     setState(() {
-      data = jsonDecode(response.body);
+      data = List<Map<String, dynamic>>.from(jsonDecode(response.body));
     });
   }
   
   Widget getRow(int index) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Text('Row ${data[index]['title']}'),
+      child: Text('Row ${index} ${data[index]['title']}'),
     );
   }
 
