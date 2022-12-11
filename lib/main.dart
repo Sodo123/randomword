@@ -51,11 +51,15 @@ class _SamplePageState extends State<SampleAppPage> {
     });
   }
   
-  Widget getRow(int index) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Text('Row ${index} ${data[index]['title']}'),
-    );
+  List<Widget> _getListData() {
+    final List<Widget>  widgets = [];
+    for(int i=0; i < 100; i++) {
+      widgets.add(Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text('Row ${i}'),
+      ));
+    }
+    return widgets;
   }
 
   @override
@@ -65,9 +69,7 @@ class _SamplePageState extends State<SampleAppPage> {
       appBar: AppBar(
         title: const Text('Sample App'),
       ),
-      body: ListView.builder(itemBuilder: (context, index){
-        return getRow(index);
-      }, itemCount: data.length,),
+      body: ListView(children: _getListData()),
     );
   }
 
