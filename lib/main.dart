@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+
+import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -54,10 +55,17 @@ class _SamplePageState extends State<SampleAppPage> {
   List<Widget> _getListData() {
     final List<Widget>  widgets = [];
     for(int i=0; i < 100; i++) {
-      widgets.add(Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text('Row ${i}'),
-      ));
+      widgets.add(
+        GestureDetector(
+          onTap:() {
+            developer.log('row tapped');
+          },
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text('Row $i'),
+            ),
+        )
+      );
     }
     return widgets;
   }
